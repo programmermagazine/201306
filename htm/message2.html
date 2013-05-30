@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="../css/pmag.css" type="text/css" />
+</head>
+<body>
+<div id="header_wrap">
+   <h1><a href="https://www.facebook.com/groups/programmerMagazine">程式人雜誌</a> <sub> --  <a href="https://dl.dropbox.com/u/101584453/pmag/201306/htm/home.html">2013 年 6 月號</a> (開放公益出版品)</sub></h1>
+</div>
+<div id="content">
+<div id="TOC">
+<ul>
+<li><a href="#軟體短訊-mimetex-數學式繪製程式">軟體短訊 – mimetex 數學式繪製程式</a></li>
+</ul>
+</div>
+<h2 id="軟體短訊-mimetex-數學式繪製程式"><a href="#軟體短訊-mimetex-數學式繪製程式">軟體短訊 – mimetex 數學式繪製程式</a></h2>
+<p>mimetex 是一個用來將 Tex 數學式轉換為圖片的程式，可以在命令列使用， 但更常被編譯成 cgi 程式，然後用來在 HTML 的 <code>&lt;img src='...'/&gt;</code> 標記中顯示數學式的圖片。</p>
+<p>執行範例：</p>
+<pre><code>$gcc -DAA mimetex.c gifsave.c -lm -o mimetex.cgi
+$gcc -DAA mimetex.c gifsave.c -lm -o mimetex
+$mimetex -d &quot;x^2+y^2&quot; &gt; exp.gif</code></pre>
+<p>網路上除了 mimetex 可以用來顯示數學式之外，還有不少可以在網頁上顯示數學式的軟體，像是 MathJax, jsmath 等，另外 現在的瀏覽器通常也有內建 MathML 的顯示功能。</p>
+<p>Google 在其 Chart API 當中也有提供類似 mimetex 的服務，您可以用像下列語法顯示數學式，其中的 etex 是 Tex 數學式編碼為 URL 的字串。</p>
+<pre><code>&lt;img src=&quot;http://chart.apis.google.com/chart?cht=tx&amp;amp;chl=[tex]&quot;/&gt;</code></pre>
+<h3 id="參考文獻"><a href="#參考文獻">參考文獻</a></h3>
+<ul>
+<li>Mimetex 的下載、編譯及用法請參考 -- <a href="http://www.forkosh.com/mimetexmanual.html">http://www.forkosh.com/mimetexmanual.html</a></li>
+<li><a href="http://banco.pixnet.net/blog/post/1824524-pmwiki---%E5%88%A9%E7%94%A8-mimetex-%E9%A1%AF%E7%A4%BA%E6%95%B8%E5%AD%B8%E5%BC%8F">PmWiki - 利用 MimeTeX 顯示數學式</a></li>
+</ul>
+<p>【本文由陳鍾誠撰寫】</p>
+</div>
+<div id="footer">
+<a href="https://www.facebook.com/groups/programmerMagazine/">程式人雜誌</a> ，採用 <a href="http://creativecommons.org/licenses/by-sa/3.0/tw/ ">創作共用：姓名標示、相同方式分享</a> 授權，歡迎加入 <a href="https://www.facebook.com/groups/programmerMagazine/">雜誌社團</a>
+</div>
+</body>
+</html>

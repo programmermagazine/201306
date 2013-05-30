@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="../css/pmag.css" type="text/css" />
+</head>
+<body>
+<div id="header_wrap">
+   <h1><a href="https://www.facebook.com/groups/programmerMagazine">程式人雜誌</a> <sub> --  <a href="https://dl.dropbox.com/u/101584453/pmag/201306/htm/home.html">2013 年 6 月號</a> (開放公益出版品)</sub></h1>
+</div>
+<div id="content">
+<div id="TOC">
+<ul>
+<li><a href="#arduino入門教學6-控制蜂鳴器發聲-作者cooper-maa">Arduino入門教學(6) – 控制蜂鳴器發聲 (作者：Cooper Maa)</a></li>
+</ul>
+</div>
+<h2 id="arduino入門教學6-控制蜂鳴器發聲-作者cooper-maa"><a href="#arduino入門教學6-控制蜂鳴器發聲-作者cooper-maa">Arduino入門教學(6) – 控制蜂鳴器發聲 (作者：Cooper Maa)</a></h2>
+<h3 id="實驗目的"><a href="#實驗目的">實驗目的</a></h3>
+<p>控制蜂鳴器發聲，讓蜂鳴器發出中音 Do(523Hz), Re (587Hz), Mi(659Hz), Fa(698Hz), So(784Hz), La(880Hz), Si(988Hz) 到高音 Do (1047Hz) 這八個不同音階的聲音，每個音階響 0.5 秒鐘。</p>
+<h3 id="材料"><a href="#材料">材料</a></h3>
+<ul>
+<li>Arduino 主板 x 1</li>
+<li>8 歐姆蜂鳴器 x 1</li>
+<li>單心線 x n</li>
+</ul>
+<h3 id="接線"><a href="#接線">接線</a></h3>
+<p>把蜂鳴器接到 Arduino 板子上，紅線(正極)接到 pin8，黑線(負極)接到 GND，如下圖：</p>
+<div class="figure">
+<img src="../img/arduino_buzzer_board1.png" />
+</div>
+<p>電路圖</p>
+<div class="figure">
+<img src="../img/arduino_buzzer_circuit1.png" />
+</div>
+<h3 id="程式碼"><a href="#程式碼">程式碼</a></h3>
+<pre class="sourceCode CPP"><code class="sourceCode cpp"><span class="ot">#include &quot;pitches.h&quot;</span>
+
+<span class="co">// notes in the melody:</span>
+<span class="dt">int</span> melody[] = {
+  NOTE_C5, NOTE_D5, NOTE_E5, NOTE_F5, NOTE_G5, NOTE_A5, NOTE_B5, NOTE_C6};
+<span class="dt">int</span> duration = <span class="dv">500</span>;  <span class="co">// 500 miliseconds</span>
+
+<span class="dt">void</span> setup() {
+
+}
+
+<span class="dt">void</span> loop() {  
+  <span class="kw">for</span> (<span class="dt">int</span> thisNote = <span class="dv">0</span>; thisNote &lt; <span class="dv">8</span>; thisNote++) {
+    <span class="co">// 在 pin8 上輸出聲音&amp;#65292;每個音階響 0.5 秒</span>
+    tone(<span class="dv">8</span>, melody[thisNote], duration);
+    
+    <span class="co">// 間隔一段時間後再播放下一個音階</span>
+    delay(<span class="dv">1000</span>);
+  }
+  
+  <span class="co">// 兩秒後重新播放 </span>
+  delay(<span class="dv">2000</span>);
+}</code></pre>
+<p>說明： * L04~L05: 定義中音 Do, Re, Mi, So, La, Si 及高音 Do 等 8 個音階的頻率，各個音階的頻率已經定義在 pitches.h 檔裏，所以只要找出這八個音階的常數並儲存在 melody 陣列即可。 * L06: 定義 duration 變數，代表每個音階響一次持續的時間，因為要讓每個音階響 0.5 秒，所以把 duration 設為 500 (單位是 milisecond) * L13~L19: 讓蜂鳴器發出中音 Do(523Hz), Re (587Hz), Mi(659Hz), Fa(698Hz), So(784Hz), La(880Hz), Si(988Hz) 到高音 Do (1047Hz) 這八個不同音階的聲音，每個音階響 0.5 秒鐘 * L22: 隔兩秒鐘後再重新播放</p>
+<p>pitches.h 檔的內容:</p>
+<pre class="sourceCode CPP"><code class="sourceCode cpp">
+<span class="co">/*************************************************</span>
+<span class="co"> * Public Constants</span>
+<span class="co"> *************************************************/</span>
+
+<span class="ot">#define NOTE_B0  31</span>
+<span class="ot">#define NOTE_C1  33</span>
+<span class="ot">#define NOTE_CS1 35</span>
+<span class="ot">#define NOTE_D1  37</span>
+<span class="ot">#define NOTE_DS1 39</span>
+<span class="ot">#define NOTE_E1  41</span>
+<span class="ot">#define NOTE_F1  44</span>
+<span class="ot">#define NOTE_FS1 46</span>
+<span class="ot">#define NOTE_G1  49</span>
+<span class="ot">#define NOTE_GS1 52</span>
+<span class="ot">#define NOTE_A1  55</span>
+<span class="ot">#define NOTE_AS1 58</span>
+<span class="ot">#define NOTE_B1  62</span>
+<span class="ot">#define NOTE_C2  65</span>
+<span class="ot">#define NOTE_CS2 69</span>
+<span class="ot">#define NOTE_D2  73</span>
+<span class="ot">#define NOTE_DS2 78</span>
+<span class="ot">#define NOTE_E2  82</span>
+<span class="ot">#define NOTE_F2  87</span>
+<span class="ot">#define NOTE_FS2 93</span>
+<span class="ot">#define NOTE_G2  98</span>
+<span class="ot">#define NOTE_GS2 104</span>
+<span class="ot">#define NOTE_A2  110</span>
+<span class="ot">#define NOTE_AS2 117</span>
+<span class="ot">#define NOTE_B2  123</span>
+<span class="ot">#define NOTE_C3  131</span>
+<span class="ot">#define NOTE_CS3 139</span>
+<span class="ot">#define NOTE_D3  147</span>
+<span class="ot">#define NOTE_DS3 156</span>
+<span class="ot">#define NOTE_E3  165</span>
+<span class="ot">#define NOTE_F3  175</span>
+<span class="ot">#define NOTE_FS3 185</span>
+<span class="ot">#define NOTE_G3  196</span>
+<span class="ot">#define NOTE_GS3 208</span>
+<span class="ot">#define NOTE_A3  220</span>
+<span class="ot">#define NOTE_AS3 233</span>
+<span class="ot">#define NOTE_B3  247</span>
+<span class="ot">#define NOTE_C4  262</span>
+<span class="ot">#define NOTE_CS4 277</span>
+<span class="ot">#define NOTE_D4  294</span>
+<span class="ot">#define NOTE_DS4 311</span>
+<span class="ot">#define NOTE_E4  330</span>
+<span class="ot">#define NOTE_F4  349</span>
+<span class="ot">#define NOTE_FS4 370</span>
+<span class="ot">#define NOTE_G4  392</span>
+<span class="ot">#define NOTE_GS4 415</span>
+<span class="ot">#define NOTE_A4  440</span>
+<span class="ot">#define NOTE_AS4 466</span>
+<span class="ot">#define NOTE_B4  494</span>
+<span class="ot">#define NOTE_C5  523</span>
+<span class="ot">#define NOTE_CS5 554</span>
+<span class="ot">#define NOTE_D5  587</span>
+<span class="ot">#define NOTE_DS5 622</span>
+<span class="ot">#define NOTE_E5  659</span>
+<span class="ot">#define NOTE_F5  698</span>
+<span class="ot">#define NOTE_FS5 740</span>
+<span class="ot">#define NOTE_G5  784</span>
+<span class="ot">#define NOTE_GS5 831</span>
+<span class="ot">#define NOTE_A5  880</span>
+<span class="ot">#define NOTE_AS5 932</span>
+<span class="ot">#define NOTE_B5  988</span>
+<span class="ot">#define NOTE_C6  1047</span>
+<span class="ot">#define NOTE_CS6 1109</span>
+<span class="ot">#define NOTE_D6  1175</span>
+<span class="ot">#define NOTE_DS6 1245</span>
+<span class="ot">#define NOTE_E6  1319</span>
+<span class="ot">#define NOTE_F6  1397</span>
+<span class="ot">#define NOTE_FS6 1480</span>
+<span class="ot">#define NOTE_G6  1568</span>
+<span class="ot">#define NOTE_GS6 1661</span>
+<span class="ot">#define NOTE_A6  1760</span>
+<span class="ot">#define NOTE_AS6 1865</span>
+<span class="ot">#define NOTE_B6  1976</span>
+<span class="ot">#define NOTE_C7  2093</span>
+<span class="ot">#define NOTE_CS7 2217</span>
+<span class="ot">#define NOTE_D7  2349</span>
+<span class="ot">#define NOTE_DS7 2489</span>
+<span class="ot">#define NOTE_E7  2637</span>
+<span class="ot">#define NOTE_F7  2794</span>
+<span class="ot">#define NOTE_FS7 2960</span>
+<span class="ot">#define NOTE_G7  3136</span>
+<span class="ot">#define NOTE_GS7 3322</span>
+<span class="ot">#define NOTE_A7  3520</span>
+<span class="ot">#define NOTE_AS7 3729</span>
+<span class="ot">#define NOTE_B7  3951</span>
+<span class="ot">#define NOTE_C8  4186</span>
+<span class="ot">#define NOTE_CS8 4435</span>
+<span class="ot">#define NOTE_D8  4699</span>
+<span class="ot">#define NOTE_DS8 4978</span></code></pre>
+<h3 id="原理"><a href="#原理">原理</a></h3>
+<p>蜂鳴器發聲的原理，其實只是利用 PWM 產生音頻，驅動蜂鳴器，讓空氣產生振動，便能發出聲音。只要適當地改變振動頻率，就可以產生不同音階的聲音。例如，送出 523Hz 的脈波可以產生中音 Do, 587Hz 的脈波可以產生中音 Re, 659Hz 可以產生中音 Mi。如果再搭配不同的節拍，就可以播放一首歌了。這邊要注意不能使用 Arduino 的 analogWrite() 函式產生脈波，因為 analogWrite() 的頻率是固定的(500Hz)，沒辦法輸出不同音階的聲音。</p>
+<h3 id="動動腦"><a href="#動動腦">動動腦</a></h3>
+<ol style="list-style-type: decimal">
+<li>以這個範例為基礎，加上幾顆 LED 並修改程式，在播放聲音的同時控制 LED 燈號的變化，讓這支範例變成一個具有聲光效果的程式。</li>
+<li>試產生救護車的警報聲。提示: 只要讓蜂鳴器不間斷產生中音 Do (523Hz) 和中音 Fa (698Hz) 各約 0.8 秒的聲音，即可模擬救護車的警報聲。</li>
+</ol>
+<h3 id="延伸閱讀"><a href="#延伸閱讀">延伸閱讀</a></h3>
+<ul>
+<li><a href="http://arduino.cc/en/Tutorial/Tone4">Playing tones on Multiple outputs using the tone() function</a></li>
+</ul>
+</div>
+<div id="footer">
+<a href="https://www.facebook.com/groups/programmerMagazine/">程式人雜誌</a> ，採用 <a href="http://creativecommons.org/licenses/by-sa/3.0/tw/ ">創作共用：姓名標示、相同方式分享</a> 授權，歡迎加入 <a href="https://www.facebook.com/groups/programmerMagazine/">雜誌社團</a>
+</div>
+</body>
+</html>
